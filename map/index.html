@@ -4,22 +4,48 @@
     <meta charset='utf-8' />
     <title></title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.31.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.31.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.js'></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+    <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
+
+        #d3chart {
+          position: absolute;
+          width: 500;
+          top: 0;
+          left: 0;
+          z-index: 1;
+          
+        }
+        
+       .tick line{
+          visibility:hidden;
+        }
+        
+        .domain.dimple-custom-axis-line {
+          visibility: hidden;
+        }
+        
+
     </style>
 </head>
 <body>
 
+<div id='d3chart' class='d3chart'></div>
 <div id='map'></div>
 <script>
-
-var sidebar = document.getElementById('sidebar');
+// 'use strict';
+//var sidebar = document.getElementById('sidebar');
 
 
 var levels = [{
+  group: 'less_than_hs',
+  hex: "#e41a1c"
+}, {
   group: 'high_school',
   hex: '#ff7f00'
 }, {
@@ -31,12 +57,10 @@ var levels = [{
 }, {
   group: 'graduate',
   hex: '#377eb8'
-}, {
-  group: 'less_than_hs',
-  hex: '#e41a1c'
-}];
+}]
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3dhbGtlcnRjdSIsImEiOiJMRk9JSmRvIn0.l1y2jHZ6IARHM_rA1-X45A';
+
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/kwalkertcu/cih5b786j002y9sm5cvekwiwx',
@@ -45,7 +69,53 @@ var map = new mapboxgl.Map({
     center: [-122.447303, 37.753574]
 });
 
+// Function to determine current map bounds
+function current_bounds() {
+  var bounds = map.getBounds()
+  var sw = bounds.getSouthWest()
+  var ne = bounds.getNorthEast()
+  // Return an array of sw and ne screen coordinates
+  return [map.project(sw), map.project(ne)]
+}
+
+// Function to figure out current layer id by zoom level
+function current_layer() {
+  var zm = map.getZoom()
+  if (zm >= 11) {
+    return "education-25"
+  } else if (zm >= 9 && zm < 11) {
+    return "education-50"
+  } else if (zm >= 7 && zm < 9) {
+    return "education-100"
+  } else if (zm >= 5 && zm < 7) {
+    return "education-200"
+  } else {
+    return "education-500"
+  }
+}
+
+function get_percentages() {
+  var all = map.queryRenderedFeatures(current_bounds(),
+            {layers: [current_layer()]})
+  var total = all.length
+  var arr = levels.map(function(x) {
+    var q = map.queryRenderedFeatures(current_bounds(),
+        {layers: [current_layer()],
+         filter: ["==", "level", x.group]})
+     var prop = q.length / total
+     var pct =  100 * (Math.round(prop * 10000) / 10000)
+     return {level: x.group, percent: pct}
+  })
+  return arr
+}
+
 map.on('load', function () {
+
+  map.addControl(new mapboxgl.GeolocateControl({
+    positionOptions: {
+        enableHighAccuracy: true
+    }
+    }));
 
     map.addLayer({
         'id': 'education-25',
@@ -83,6 +153,7 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.9bi985cx'
         },
         'source-layer': 'us_50-7r80sd',
+        'minzoom': 8,
         'maxzoom': 10.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
@@ -111,6 +182,7 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.9zwidbpk'
         },
         'source-layer': 'us_100-cdaif3',
+        'minzoom': 7,
         'maxzoom': 8.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
@@ -139,6 +211,7 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.0oie1o0m'
         },
         'source-layer': 'us_200-7cb4an',
+        'minzoom': 5,
         'maxzoom': 6.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
@@ -167,6 +240,7 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.58g5eb3a'
         },
         'source-layer': 'us_500-dwxss6',
+        'minzoom': 3,
         'maxzoom': 4.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
@@ -187,7 +261,71 @@ map.on('load', function () {
             }
         }
     }, 'waterway-label');
+
+  var data = get_percentages();
+
+  var svg = dimple.newSvg("#d3chart", 500, 500);
+
+  var mychart = new dimple.chart(svg, data);
+  mychart.setBounds(75, 30, 400, 330);
+  
+  
+  var x = mychart.addMeasureAxis("x", "percent");
+  
+  x.showGridlines = false; 
+  x.title = "Percent of total"; 
+  
+
+  
+  var y = mychart.addCategoryAxis("y", "level");
+  
+  y.addOrderRule("percent", false); 
+  
+  mychart.addSeries("level", dimple.plot.bar);
+  mychart.assignColor("less_than_hs", "#e41a1c");
+  mychart.assignColor("high_school", "#ff7f00");
+  mychart.assignColor("some_college", "#ffff33");
+  mychart.assignColor("bachelors", "#4daf4a");
+  mychart.assignColor("graduate", "#377eb8");
+  mychart.draw()
+  
+  y.shapes.selectAll("*").attr("fill", "white"); 
+  x.shapes.selectAll("*").attr("fill", "white"); 
+  x.titleShape.attr("fill", "white"); 
+  
+
+
+
+
+
+
+
+
+  map.on('render', function() {
+
+    mychart.data = get_percentages();
+    mychart.draw(1000);
+    y.shapes.selectAll("*").attr("fill", "white"); 
+    x.shapes.selectAll("*").attr("fill", "white"); 
+    x.titleShape.attr("fill", "white"); 
+
+
+
+
+
+
+  });
+
+
+
 });
+
+
+
+
+
+
+
 </script>
 
 </body>

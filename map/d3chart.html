@@ -1,0 +1,32 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+
+<div id="viz"></div>
+
+<script>
+  var data = [
+    {"level":"less_than_hs","pct":13.889999999999999, "y": 1},
+    {"level":"high_school","pct":35.28, "y": 1},
+    {"level":"some_college","pct":36.67, "y": 1},
+    {"level":"bachelors","pct":10.280000000000001, "y": 1},
+    {"level":"graduate","pct":3.8899999999999997, "y": 1}
+  ]
+
+  var svg = dimple.newSvg("#viz", 800, 600)
+
+  var mychart = new dimple.chart(svg, data);
+  mychart.setBounds(75, 30, 480, 330);
+  mychart.addMeasureAxis("x", "pct");
+  mychart.addCategoryAxis("y", "level");
+  mychart.addSeries("level", dimple.plot.bar);
+  mychart.assignColor("less_than_hs", "#e41a1c");
+  mychart.assignColor("high_school", "#ff7f00");
+  mychart.assignColor("some_college", "#ffff33");
+  mychart.assignColor("bachelors", "#4daf4a");
+  mychart.assignColor("graduate", "#377eb8");
+  mychart.draw()
+
+</script>
