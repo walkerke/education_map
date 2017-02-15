@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Educational Attainment in America</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.js'></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.css' rel='stylesheet' />
+    <style>
+        body { margin:0; padding:0; }
+        #map { 
+          position:absolute; 
+          top:0; 
+          bottom:0; 
+          width:100%; 
+          
+        }
+
+        #d3chart {
+          position: relative;
+          width: 500;
+          bottom: 10px;
+          left: 10px;
+          z-index: 3;
+          padding-right: 8px;
+          
+        }
+        
+        #sidebar {
+          position: absolute;
+          background-color: rgba(0, 0, 0, 0.2);
+          font-family: "Open Sans";
+          color: #ffffff;
+          z-index: 2;
+          left: 0px;
+          top: 0px;
+          padding: 15px;
+          
+        }
+        
+        a {
+          color: yellow;
+        }
+        
+       .tick line{
+          visibility:hidden;
+        }
+        
+        .domain.dimple-custom-axis-line {
+          visibility: hidden;
+        }
+        
+        .legend {
+          /*background-color: #fff; */
+          border-radius: 3px;
+          bottom: 30px;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+          font: 'Open Sans';
+          padding: 10px;
+          /*opacity: 0.6;*/
+          position: relative;
+          right: 10px;
+          z-index: 3;
+          color: #fff;
+        }
+        .legend h4 {
+          margin: 0 0 10px;
+          color: #fff;
+        }
+        .legend div span {
+          border-radius: 50%;
+          display: inline-block;
+          height: 10px;
+          margin-right: 5px;
+          width: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div id='sidebar' class='sidebar'>
+  <h3>Educational Attainment in America</h3>
+  <p><a href=http://personal.tcu.edu/kylewalker>Kyle Walker</a>, 
+  <a href=http://urbanstudies.tcu.edu/>TCU Center for Urban Studies</a></p><br/>
+  <p>Brief info here...</p>
+  <br/>
+  <div id='legend10' class='legend'>
+  <h4>Educational attainment</h4>
+  <div><span style='background-color: #377eb8'></span>Graduate degree</div>
+  <div><span style='background-color: #4daf4a'></span>Bachelor's degree</div>
+  <div><span style='background-color: #ffff33'></span>Some college</div>
+  <div><span style='background-color: #ff7f00'></span>High school</div>
+  <div><span style='background-color: #e41a1c'></span>Less than high school</div>
+</div>
+
+  <div id='d3chart' class='d3chart'></div>
+</div>
+<div id='map'></div>
+<script src="script.js"></script>
+
+</body>
+</html>
