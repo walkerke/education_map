@@ -2,30 +2,57 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <title></title>
+    <title>Educational Attainment in America</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.js'></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="http://dimplejs.org/dist/dimple.v2.3.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
     <link href='https://api.mapbox.com/mapbox-gl-js/v0.32.1/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
-        #map { position:absolute; top:0; bottom:0; width:100%; }
+        #map { 
+          position:absolute; 
+          top:0; 
+          bottom:0; 
+          width:100%; 
+          
+        }
 
         #d3chart {
-          position: absolute;
+          position: relative;
           width: 500;
-          top: 0;
+          bottom: 10px;
           left: 10px;
-          z-index: 1;
+          z-index: 3;
+          padding-right: 8px;
           
         }
         
         #sidebar {
-          width: 25%;
-          background: ;
+          position: absolute;
+          background-color: rgba(0, 0, 0, 0.3);
+          font-family: "Open Sans";
+          color: #ffffff;
+          z-index: 2;
+          left: 0px;
+          top: 0px;
+          padding: 15px;
           
+        }
+        
+        a {
+          color: yellow;
+          cursor: pointer;
+        }
+        
+        .hand-click {
+          cursor: pointer;
+        }
+        
+        .hand-click:hover {
+          color: yellow;
         }
         
        .tick line{
@@ -36,14 +63,72 @@
           visibility: hidden;
         }
         
+        .legend {
+          /*background-color: #fff; */
+          border-radius: 3px;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+          font: 'Open Sans';
+          padding: 10px;
+          /*opacity: 0.6;*/
+          position: relative;
+          right: 10px;
+          z-index: 3;
+          color: #fff;
+        }
+        .legend h4 {
+          margin: 0 0 10px;
+          color: #fff;
+        }
+        .legend div span {
+          border-radius: 50%;
+          display: inline-block;
+          height: 10px;
+          margin-right: 5px;
+          width: 10px;
+        }
+        
+        @media screen and (max-height: 600px) {
+          .mobile-hide {display: none;}
+        }
 
     </style>
 </head>
 <body>
 
-
-<div id='sidebar' class='sidebar'></div></div>
-<div id='d3chart' class='d3chart'></div>
+<div id='sidebar' class='sidebar'>
+  <h3>Educational Attainment in America</h3>
+  <p><a href=http://personal.tcu.edu/kylewalker>Kyle Walker</a>, 
+  <a href=http://urbanstudies.tcu.edu/>TCU Center for Urban Studies</a></p>
+  <div id='fly-to' class='mobile-hide'>
+    <p>Fly to: 
+      <a id='new-york'>New York</a> | 
+      <a id="los-angeles">Los Angeles</a> | 
+      <a id="chicago">Chicago</a><br> 
+      <a id='dfw'>Dallas-Fort Worth</a> | 
+      <a id="atlanta">Atlanta</a>
+    </p>
+  </div>
+  <!--
+  <p style="font-size: 90%;">This interactive dot-density map represents<br>
+     the population aged 25 and over in the United<br> 
+     States by their highest level of educational<br>
+     attainment.  Data come from the 2011-2015 ACS<br> 
+     Table B15003, obtained from <a href="http://www.nhgis.org">NHGIS</a>.<br>  
+     Dots are aggregated and placed randomly within<br> 
+     Census tracts; as such, they do not represent<br> 
+     the locations of individuals.  
+  </p>
+  -->
+  <div id='legend10' class='legend mobile-hide'>
+  <div id='graduate' class='hand-click'><span style='background-color: #377eb8' id='graduate-span'></span>Graduate degree</div>
+  <div id='bachelors' class='hand-click'><span style='background-color: #4daf4a' id='bachelors-span'></span>Bachelor's degree</div>
+  <div id='some_college' class='hand-click'><span style='background-color: #ffff33' id='some_college-span'></span>Some college</div>
+  <div id='high_school' class='hand-click'><span style='background-color: #ff7f00' id='high_school-span'></span>High school</div>
+  <div id='less_than_hs' class='hand-click'><span style='background-color: #e41a1c' id='less_than_hs-span'></span>Less than high school</div>
+</div>
+<p style="font-size: 80%" class="mobile-hide">Move the map to re-generate the chart</p>
+<div id='d3chart' class='d3chart mobile-hide'></div>
+</div>
 <div id='map'></div>
 <script src="script.js"></script>
 

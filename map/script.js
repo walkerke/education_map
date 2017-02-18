@@ -22,14 +22,13 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoia3dhbGtlcnRjdSIsImEiOiJMRk9JSmRvIn0.l1y2jHZ6I
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/kwalkertcu/cih5b786j002y9sm5cvekwiwx',
+    style: 'mapbox://styles/kwalkertcu/cizbggjq6006w2rnqzkmf6i0k',
     zoom: 12,
     maxZoom: 14.5, 
     minZoom: 3, 
     hash: true,
     center: [-122.447303, 37.753574]
 });
-
 
 
 // Function to determine current map bounds
@@ -130,7 +129,7 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.9bi985cx'
         },
         'source-layer': 'us_50-7r80sd',
-        'minzoom': 8,
+        'minzoom': 9,
         'maxzoom': 10.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
@@ -240,7 +239,7 @@ map.on('load', function () {
     }, 'waterway-label');
 
   var data = get_percentages();
-
+  
   var svg = dimple.newSvg("#d3chart", 300, 300);
 
   var mychart = new dimple.chart(svg, data);
@@ -270,6 +269,7 @@ map.on('load', function () {
   mychart.assignColor("Some college", "#ffff33");
   mychart.assignColor("Bachelor's", "#4daf4a");
   mychart.assignColor("Graduate", "#377eb8");
+
   mychart.draw(); 
   
   // y.shapes.selectAll("*").attr("fill", "white"); 
@@ -305,3 +305,115 @@ map.on('load', function () {
 */
 
 });
+
+// Fly-to links
+
+document.getElementById('new-york').addEventListener('click', function () {
+    map.flyTo({
+        center: [-74.0066, 40.7770], zoom: 11.01
+    });
+});
+document.getElementById('los-angeles').addEventListener('click', function () {
+    map.flyTo({
+        center: [-118.2724, 34.0807], zoom: 11.01
+    });
+});
+document.getElementById('chicago').addEventListener('click', function () {
+    map.flyTo({
+        center: [-87.6138, 41.8845], zoom: 11.01
+    });
+});
+document.getElementById('dfw').addEventListener('click', function () {
+    map.flyTo({
+        center: [-97.1496, 32.8065], zoom: 11.01
+    });
+});
+document.getElementById('atlanta').addEventListener('click', function () {
+    map.flyTo({
+        center: [-84.4986, 33.8486], zoom: 11.01
+    });
+});
+
+// Try to get legend filter working
+// Works.  Now need to figure out how to create a combination filter.
+
+// Generate click event
+
+var filter = ["in", "level", "less_than_hs", "high_school", "some_college", "bachelors", "graduate"]; 
+
+document.getElementById('legend10').addEventListener('click', function(e) {
+
+  var level = e.target.id; 
+  var layer = current_layer(); 
+  var level_span = level + '-span'; 
+  
+  // get the corresponding hex value for the level
+  var level_index = levels.map(function(x) {
+    return x.group; 
+  }).indexOf(level); 
+  
+  var hex = levels[level_index].hex; 
+  
+  var el = document.getElementById(level_span);
+  
+  // check if the level is in the target array; if not, then add it
+  if (filter.indexOf(level, 1) === -1) {
+    filter.push(level); 
+    map.setFilter(layer, filter); 
+    el.style.backgroundColor = hex; 
+    el.style.color = "#ffffff"; 
+  // otherwise, remove it
+  } else {
+    index = filter.indexOf(level); 
+    filter.splice(index, 1); 
+    map.setFilter(layer, filter); 
+    el.style.backgroundColor = '#c5c8cc'; 
+    el.style.color = '#c5c8cc'; 
+  }
+    
+}); 
+
+map.on('sourcedata', function() {
+  map.setFilter(current_layer(), filter); 
+}); 
+
+// Work on preserving filter at multiple zooms
+
+/*
+
+//My working code: 
+
+document.getElementById('legend10').addEventListener('click', function(e) {
+  var level = e.target.id; 
+  var layer = current_layer(); 
+  if (level === 'graduate') {
+    map.setFilter(layer, ['!=', 'level', 'graduate']);
+  } 
+  
+  
+// The Mapbox code - this is turning all layers on and off for me  
+levels.map(function(d) {
+  d.active = true; 
+  var lev = d.group; 
+  var legend = document.getElementById('legend10'); 
+  var layer = current_layer(); 
+  legend.addEventListener('click', function() {
+    d.active = d.active ? false : true; 
+    legend.classList.toggle('active', d.active); 
+    map.setFilter(layer, getFilter()); 
+  }); 
+  return d; 
+}); 
+
+function getFilter() {
+  return levels.filter(function(d) {
+    return d.active; 
+  }).reduce(function(memo, d) {
+    memo.push(d.group); 
+    return memo; 
+  }, ['in', 'level']); 
+}
+*/  
+
+  
+
