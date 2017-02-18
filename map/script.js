@@ -84,12 +84,6 @@ function get_percentages() {
 
 map.on('load', function () {
 
-  map.addControl(new mapboxgl.GeolocateControl({
-    positionOptions: {
-        enableHighAccuracy: true
-    }
-    }));
-    
     var nav = new mapboxgl.NavigationControl();
     map.addControl(nav, 'top-right');
 
@@ -237,6 +231,8 @@ map.on('load', function () {
             }
         }
     }, 'waterway-label');
+    
+  // Here, we build the chart
 
   var data = get_percentages();
   
@@ -257,9 +253,9 @@ map.on('load', function () {
   // Customize the y axis
   var y = mychart.addCategoryAxis("y", "Level");
   
-  // y.addOrderRule("Percent", false); 
+  y.addOrderRule("Percent", false); 
   
-  y.addOrderRule(["Less than HS", "High school", "Some college", "Bachelor's", "Graduate"]);
+  //y.addOrderRule(["Less than HS", "High school", "Some college", "Bachelor's", "Graduate"]);
   
   y.hidden = true; 
 
@@ -279,7 +275,25 @@ map.on('load', function () {
   x.titleShape.style("font-size", "103%"); 
   x.titleShape.style("font-family", "Open Sans"); 
   
-  // Re-draw the chart when the user moves on the map
+  // Change the chart when the button is clicked
+  
+  document.getElementById('button-click').addEventListener('click', function () {
+  
+    mychart.data = get_percentages();
+    mychart.draw(1000);
+    y.shapes.selectAll("*").attr("fill", "white"); 
+    x.shapes.selectAll("*").attr("fill", "white"); 
+    x.titleShape.attr("fill", "white"); 
+    x.shapes.selectAll("*").style("font-family", "Open Sans"); 
+    x.titleShape.style("font-size", "103%"); 
+    x.titleShape.style("font-family", "Open Sans"); 
+  
+}); 
+  
+
+ /*
+ 
+  // Re-draw the chart when the user moves the map
   map.on('moveend', function() {
 
     mychart.data = get_percentages();
@@ -305,6 +319,9 @@ map.on('load', function () {
 */
 
 });
+
+
+
 
 // Fly-to links
 
@@ -337,7 +354,7 @@ document.getElementById('atlanta').addEventListener('click', function () {
 // Try to get legend filter working
 // Works.  Now need to figure out how to create a combination filter.
 
-// Generate click event
+// Generate click event for legend filter
 
 var filter = ["in", "level", "less_than_hs", "high_school", "some_college", "bachelors", "graduate"]; 
 
