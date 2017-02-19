@@ -18,6 +18,13 @@ var levels = [{
   hex: '#377eb8'
 }]; 
 
+var layerids = [{id: 'education-25', minzoom: 11, maxzoom: 15}, 
+                {id: 'education-50', minzoom: 9, maxzoom: 10.99999}, 
+                {id: 'education-100', minzoom: 7, maxzoom: 8.99999}, 
+                {id: 'education-200', minzoom: 5, maxzoom: 6.99999}, 
+                {id: 'education-500', minzoom: 3, maxzoom: 4.99999}]; 
+
+
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3dhbGtlcnRjdSIsImEiOiJMRk9JSmRvIn0.l1y2jHZ6IARHM_rA1-X45A';
 
 var map = new mapboxgl.Map({
@@ -95,7 +102,7 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.axti0hkv'
         },
         'source-layer': 'us_25-3hrc4o',
-        'minzoom': 11,
+        // 'minzoom': 11,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
             'circle-radius': {
@@ -123,8 +130,8 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.9bi985cx'
         },
         'source-layer': 'us_50-7r80sd',
-        'minzoom': 9,
-        'maxzoom': 10.99999,
+        // 'minzoom': 9,
+        // 'maxzoom': 10.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
             'circle-radius': {
@@ -152,8 +159,8 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.9zwidbpk'
         },
         'source-layer': 'us_100-cdaif3',
-        'minzoom': 7,
-        'maxzoom': 8.99999,
+        // 'minzoom': 7,
+        // 'maxzoom': 8.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
             'circle-radius': {
@@ -181,8 +188,8 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.0oie1o0m'
         },
         'source-layer': 'us_200-7cb4an',
-        'minzoom': 5,
-        'maxzoom': 6.99999,
+        // 'minzoom': 5,
+        // 'maxzoom': 6.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
             'circle-radius': {
@@ -210,8 +217,8 @@ map.on('load', function () {
             url: 'mapbox://kwalkertcu.58g5eb3a'
         },
         'source-layer': 'us_500-dwxss6',
-        'minzoom': 3,
-        'maxzoom': 4.99999,
+        // 'minzoom': 3,
+        // 'maxzoom': 4.99999,
         'paint': {
             // make circles larger as the user zooms from z12 to z22
             'circle-radius': {
@@ -232,61 +239,69 @@ map.on('load', function () {
         }
     }, 'waterway-label');
     
-  // Here, we build the chart
+    // Set zoom range for each layer
+    
+    layerids.map(function(id) {
+      
+      map.setLayerZoomRange(id.id, id.minzoom, id.maxzoom); 
+      
+    }); 
+    
+    // Here, we build the chart
 
-  var data = get_percentages();
+    var data = get_percentages();
+    
+    var svg = dimple.newSvg("#d3chart", 300, 300);
   
-  var svg = dimple.newSvg("#d3chart", 300, 300);
-
-  var mychart = new dimple.chart(svg, data);
-  // mychart.setBounds(75, 30, 300, 300);
+    var mychart = new dimple.chart(svg, data);
+    // mychart.setBounds(75, 30, 300, 300);
+    
+    mychart.setMargins(10, 10, 10, 40); 
+    
+    // Customize the x axis
+    var x = mychart.addMeasureAxis("x", "Percent");
+    
+    x.showGridlines = false; 
+    x.title = "Percent of total"; 
+    x.overrideMax = 50; 
+    
+    // Customize the y axis
+    var y = mychart.addCategoryAxis("y", "Level");
+    
+    y.addOrderRule("Percent", false); 
+    
+    //y.addOrderRule(["Less than HS", "High school", "Some college", "Bachelor's", "Graduate"]);
+    
+    y.hidden = true; 
   
-  mychart.setMargins(10, 10, 10, 40); 
+    mychart.addSeries("Level", dimple.plot.bar);
+    mychart.assignColor("Less than HS", "#e41a1c");
+    mychart.assignColor("High school", "#ff7f00");
+    mychart.assignColor("Some college", "#ffff33");
+    mychart.assignColor("Bachelor's", "#4daf4a");
+    mychart.assignColor("Graduate", "#377eb8");
   
-  // Customize the x axis
-  var x = mychart.addMeasureAxis("x", "Percent");
-  
-  x.showGridlines = false; 
-  x.title = "Percent of total"; 
-  x.overrideMax = 50; 
-  
-  // Customize the y axis
-  var y = mychart.addCategoryAxis("y", "Level");
-  
-  y.addOrderRule("Percent", false); 
-  
-  //y.addOrderRule(["Less than HS", "High school", "Some college", "Bachelor's", "Graduate"]);
-  
-  y.hidden = true; 
-
-  mychart.addSeries("Level", dimple.plot.bar);
-  mychart.assignColor("Less than HS", "#e41a1c");
-  mychart.assignColor("High school", "#ff7f00");
-  mychart.assignColor("Some college", "#ffff33");
-  mychart.assignColor("Bachelor's", "#4daf4a");
-  mychart.assignColor("Graduate", "#377eb8");
-
-  mychart.draw(); 
-  
-  // y.shapes.selectAll("*").attr("fill", "white"); 
-  x.shapes.selectAll("*").attr("fill", "white"); 
-  x.titleShape.attr("fill", "white"); 
-  x.shapes.selectAll("*").style("font-family", "Open Sans"); 
-  x.titleShape.style("font-size", "103%"); 
-  x.titleShape.style("font-family", "Open Sans"); 
-  
-  // Change the chart when the button is clicked
-  
-  document.getElementById('button-click').addEventListener('click', function () {
-  
-    mychart.data = get_percentages();
-    mychart.draw(1000);
-    y.shapes.selectAll("*").attr("fill", "white"); 
+    mychart.draw(); 
+    
+    // y.shapes.selectAll("*").attr("fill", "white"); 
     x.shapes.selectAll("*").attr("fill", "white"); 
     x.titleShape.attr("fill", "white"); 
     x.shapes.selectAll("*").style("font-family", "Open Sans"); 
     x.titleShape.style("font-size", "103%"); 
     x.titleShape.style("font-family", "Open Sans"); 
+    
+    // Change the chart when the button is clicked
+    
+    document.getElementById('button-click').addEventListener('click', function () {
+    
+      mychart.data = get_percentages();
+      mychart.draw(1000);
+      y.shapes.selectAll("*").attr("fill", "white"); 
+      x.shapes.selectAll("*").attr("fill", "white"); 
+      x.titleShape.attr("fill", "white"); 
+      x.shapes.selectAll("*").style("font-family", "Open Sans"); 
+      x.titleShape.style("font-size", "103%"); 
+      x.titleShape.style("font-family", "Open Sans"); 
   
 }); 
   
@@ -390,8 +405,14 @@ document.getElementById('legend10').addEventListener('click', function(e) {
     
 }); 
 
-map.on('sourcedata', function() {
-  map.setFilter(current_layer(), filter); 
+layerids.map(function(x) {
+  
+  map.on('zoom', function() {
+    
+    map.setFilter(x.id, filter); 
+    
+  }); 
+  
 }); 
 
 // Work on preserving filter at multiple zooms
