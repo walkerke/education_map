@@ -55,6 +55,11 @@
           color: yellow;
         }
         
+        .dot-text {
+          color: yellow;
+          font-size: 80%;
+        }
+        
        .tick line{
           visibility:hidden;
         }
@@ -136,16 +141,24 @@
      the locations of individuals.  
   </p>
   -->
+  <div id='layer25' class='mobile-hide dot-text'><p>1 dot = 25 people age 25+</p></div>
+  <div id='layer50' class='mobile-hide dot-text' style='display: none;'><p>1 dot = 50 people age 25+</p></div>
+  <div id='layer100' class='mobile-hide dot-text' style='display: none;'><p>1 dot = 100 people age 25+</p></div>
+  <div id='layer200' class='mobile-hide dot-text' style='display: none;'><p>1 dot = 200 people age 25+</p></div>
+  <div id='layer500' class='mobile-hide dot-text' style='display: none;'><p>1 dot = 500 people age 25+</p></div>
+
   <div id='legend10' class='legend mobile-hide'>
-  <div id='graduate' class='hand-click'><span style='background-color: #377eb8' id='graduate-span'></span>Graduate degree</div>
-  <div id='bachelors' class='hand-click'><span style='background-color: #4daf4a' id='bachelors-span'></span>Bachelor's degree</div>
-  <div id='some_college' class='hand-click'><span style='background-color: #ffff33' id='some_college-span'></span>Some college</div>
-  <div id='high_school' class='hand-click'><span style='background-color: #ff7f00' id='high_school-span'></span>High school</div>
-  <div id='less_than_hs' class='hand-click'><span style='background-color: #e41a1c' id='less_than_hs-span'></span>Less than high school</div>
-</div>
-<div id='button-click'><button class='chart-button'>Click to generate a chart for the current view</button></div>
-<!-- <p style="font-size: 80%" class="mobile-hide">Move the map to re-generate the chart</p> -->
-<div id='d3chart' class='d3chart mobile-hide'></div>
+    <div id='graduate' class='hand-click'><span style='background-color: #377eb8' id='graduate-span'></span>Graduate degree</div>
+    <div id='bachelors' class='hand-click'><span style='background-color: #4daf4a' id='bachelors-span'></span>Bachelor's degree      </div>
+    <div id='some_college' class='hand-click'><span style='background-color: #ffff33' id='some_college-span'></span>Some college     </div>
+    <div id='high_school' class='hand-click'><span style='background-color: #ff7f00' id='high_school-span'></span>High school</div>
+    <div id='less_than_hs' class='hand-click'><span style='background-color: #e41a1c' id='less_than_hs-span'></span>Less than high school</div>
+  </div>
+  <div id='button-click' class='mobile-hide'>
+    <button class='chart-button'>Click to generate a chart for the current view</button>
+  </div>
+  <!-- <p style="font-size: 80%" class="mobile-hide">Move the map to re-generate the chart</p> -->
+  <div id='d3chart' class='d3chart mobile-hide'></div>
 </div>
 <div id='map'></div>
 <script src="script.js"></script>

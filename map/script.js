@@ -18,11 +18,11 @@ var levels = [{
   hex: '#377eb8'
 }]; 
 
-var layerids = [{id: 'education-25', minzoom: 11, maxzoom: 15}, 
-                {id: 'education-50', minzoom: 9, maxzoom: 10.99999}, 
-                {id: 'education-100', minzoom: 7, maxzoom: 8.99999}, 
-                {id: 'education-200', minzoom: 5, maxzoom: 6.99999}, 
-                {id: 'education-500', minzoom: 3, maxzoom: 4.99999}]; 
+var layerids = [{id: 'education-25', minzoom: 11, maxzoom: 15, textid: 'layer25'}, 
+                {id: 'education-50', minzoom: 9, maxzoom: 10.99999, textid: 'layer50'}, 
+                {id: 'education-100', minzoom: 7, maxzoom: 8.99999, textid: 'layer100'}, 
+                {id: 'education-200', minzoom: 5, maxzoom: 6.99999, textid: 'layer200'}, 
+                {id: 'education-500', minzoom: 3, maxzoom: 4.99999, textid: 'layer500'}]; 
 
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3dhbGtlcnRjdSIsImEiOiJMRk9JSmRvIn0.l1y2jHZ6IARHM_rA1-X45A';
@@ -405,12 +405,32 @@ document.getElementById('legend10').addEventListener('click', function(e) {
     
 }); 
 
+// Preserve filter on zoom
+
 layerids.map(function(x) {
   
   map.on('zoom', function() {
     
     map.setFilter(x.id, filter); 
     
+  }); 
+  
+}); 
+
+// Modify dot info in sidebar
+
+layerids.map(function(x) {
+  
+  map.on('zoom', function() {
+    
+    var d = document.getElementById(x.textid); 
+    var zoom = map.getZoom(); 
+    
+    if (zoom >= x.minzoom && zoom <= x.maxzoom ) {
+      d.style.display = 'block'; 
+    } else {
+      d.style.display = 'none'; 
+    }
   }); 
   
 }); 
