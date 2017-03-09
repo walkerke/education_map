@@ -101,3 +101,7 @@ tick line{
 @media screen and (max-height: 650px) {
   .mobile-hide {display: none;}
 }
+
+@media screen and (min-height: 650px) {
+  .mobile-show {display: none;}
+}
