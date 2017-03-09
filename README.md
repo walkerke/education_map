@@ -2,7 +2,7 @@
 
 __Educational Attainment in America__ is an interactive dot-density map of the US population aged 25 and over by educational attainment.  Data are summarized into five categories, which represent the highest education attained: less than high school; high school or equivalent; some college or associate's degree; bachelor's degree; and graduate degree.  Data are from the 2011-2015 American Community Survey Table B15003, distributed by [NHGIS](http://www.nhgis.org).  Dot locations are approximate and __do not__ represent the locations of individuals.  Also, as the ACS is a survey of the US population, its estimates are subject to a margin of error.  
 
-Data preparation was completed in the R and Python programming languages, with heavy reliance on the __arcpy__ site package via ArcGIS Pro and the __sf__ R package.  The map itself is hosted by Mapbox and designed with Mapbox GL JS.  Major features of the map are described below.  
+Data preparation was completed in the R and Python programming languages, with heavy reliance on the __arcpy__ site package via ArcGIS Pro and the __sf__ R package.  The map itself is hosted by Mapbox and designed with Mapbox GL JS.  Major features of the map are described below; a manuscript describing the full methodology is currently in progress.    
 
 * __Dasymetric dot-density mapping__.  The map is a __dasymetric__ dot-density map, which means that the dots are placed in relationship to ancillary geographic information that in this case describes the underlying population surface.  Educational attainment data are aggregated at the Census tract level, and dots are placed randomly within Census tracts.  Prior to the dot placement, however, Census blocks with no population in 2010 were erased from the Census tract geographies, meaning that dots are constrained to areas within tracts that had a measured population in 2010.  Given the temporal difference between the block data and tract data, some areas that went from 0 population to populated between 2010 and 2015 may be excluded.    
 
@@ -21,4 +21,10 @@ Given the size of the raw and derived data used for this map (over 50 GB), data 
 
 Running the following scripts in order, if all requisite software is installed, will reproduce the data.  Note that you must use ArcGIS Pro's conda environment to get access to __arcpy__.  Also, you would need to change the NHGIS folder paths and file names to your own.  
 
-1. 
+1. `R/unzip_blocks.R`
+2. `R/process_blocks.R`
+3. `python/erase_from_tracts.py`
+4. `R/combine_dasymetric_tracts.R`
+5. `python/usa_dots.py`
+
+
