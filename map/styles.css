@@ -1,0 +1,103 @@
+body { margin:0; padding:0; }
+
+#map { 
+  position:absolute; 
+  top:0; 
+  bottom:0; 
+  width:100%; 
+  
+}
+
+#d3chart {
+  position: relative;
+  width: 500;
+  bottom: 10px;
+  left: 10px;
+  z-index: 3;
+  padding-right: 8px;
+  
+}
+
+#sidebar {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.3);
+  font-family: "Open Sans";
+  color: #ffffff;
+  z-index: 2;
+  left: 0px;
+  top: 0px;
+  padding: 15px;
+  
+}
+
+a {
+  color: yellow;
+  cursor: pointer;
+}
+
+.hand-click {
+  cursor: pointer;
+}
+
+.hand-click:hover {
+  color: yellow;
+}
+
+.dot-text {
+  color: yellow;
+  font-size: 80%;
+}
+
+tick line{
+  visibility:hidden;
+}
+
+.domain.dimple-custom-axis-line {
+  visibility: hidden;
+}
+
+.chart-button {
+  	background-color: yellow;
+  	border: none;
+  	border-radius: 10px;
+  	color: black;
+  	font-family: 'Open Sans';
+  	text-align: center;
+  	text-decoration: none;
+  	display: inline-block;
+  	cursor: pointer;
+  	margin-bottom: 5px;
+  	
+}
+
+.chart-button:hover {
+  background-color: #63b6e5;
+}
+
+.legend {
+  /*background-color: #fff; */
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+  font: 'Open Sans';
+  padding: 10px;
+  /*opacity: 0.6;*/
+  position: relative;
+  right: 10px;
+  z-index: 3;
+  color: #fff;
+}
+.legend h4 {
+  margin: 0 0 10px;
+  color: #fff;
+}
+.legend div span {
+  border-radius: 50%;
+  display: inline-block;
+  height: 10px;
+  margin-right: 5px;
+  width: 10px;
+}
+
+@media screen and (max-height: 650px) {
+  .mobile-hide {display: none;}
+}

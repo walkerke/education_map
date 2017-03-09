@@ -99,17 +99,17 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.axti0hkv'
+            url: 'mapbox://kwalkertcu.1utb0sx3'
         },
-        'source-layer': 'us_25-3hrc4o',
+        'source-layer': 'us_dasy_25-b19smm',
         // 'minzoom': 11,
         'paint': {
-            // make circles larger as the user zooms from z12 to z22
+            // make circles larger as the user zooms in
             'circle-radius': {
-                'base': 1.2,
-                'stops': [[12, 1.5], [22, 10]]
+                'base': 1.5,
+                'stops': [[11, 1.5], [22, 10]]
             },
-            // color circles by ethnicity, using data-driven styles
+            // color circles by level
             'circle-color': {
                 property: 'level',
                 type: 'categorical',
@@ -127,18 +127,18 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.9bi985cx'
+            url: 'mapbox://kwalkertcu.7zzum1a3'
         },
-        'source-layer': 'us_50-7r80sd',
+        'source-layer': 'us_dasy_50-dymmgx',
         // 'minzoom': 9,
         // 'maxzoom': 10.99999,
         'paint': {
-            // make circles larger as the user zooms from z12 to z22
+            // make circles larger as the user zooms in
             'circle-radius': {
                 'base': 1,
                 'stops': [[9, 1], [11, 1.5]]
             },
-            // color circles by ethnicity, using data-driven styles
+            // color circles by level
             'circle-color': {
                 property: 'level',
                 type: 'categorical',
@@ -156,18 +156,18 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.9zwidbpk'
+            url: 'mapbox://kwalkertcu.3gj3ago4'
         },
-        'source-layer': 'us_100-cdaif3',
+        'source-layer': 'us_dasy_100-cfqt1f',
         // 'minzoom': 7,
         // 'maxzoom': 8.99999,
         'paint': {
-            // make circles larger as the user zooms from z12 to z22
+            // make circles larger as the user zooms in
             'circle-radius': {
                 'base': 0.7,
                 'stops': [[7, 0.7], [9, 1]]
             },
-            // color circles by ethnicity, using data-driven styles
+            // color circles by level
             'circle-color': {
                 property: 'level',
                 type: 'categorical',
@@ -185,18 +185,18 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.0oie1o0m'
+            url: 'mapbox://kwalkertcu.38ss9mwe'
         },
-        'source-layer': 'us_200-7cb4an',
+        'source-layer': 'us_dasy_200-b8i5jx',
         // 'minzoom': 5,
         // 'maxzoom': 6.99999,
         'paint': {
-            // make circles larger as the user zooms from z12 to z22
+            // make circles larger as the user zooms in
             'circle-radius': {
                 'base': 0.5,
                 'stops': [[5, 0.5], [7, 0.7]]
             },
-            // color circles by ethnicity, using data-driven styles
+            // color circles by level
             'circle-color': {
                 property: 'level',
                 type: 'categorical',
@@ -214,18 +214,18 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.58g5eb3a'
+            url: 'mapbox://kwalkertcu.bvg8or44'
         },
-        'source-layer': 'us_500-dwxss6',
+        'source-layer': 'us_dasy_500-4vo2ld',
         // 'minzoom': 3,
         // 'maxzoom': 4.99999,
         'paint': {
-            // make circles larger as the user zooms from z12 to z22
+            // make circles larger as the user zooms in
             'circle-radius': {
                 'base': 0.3,
                 'stops': [[3, 0.3], [5, 0.5]]
             },
-            // color circles by ethnicity, using data-driven styles
+            // color circles by level
             'circle-color': {
                 property: 'level',
                 type: 'categorical',
@@ -251,7 +251,7 @@ map.on('load', function () {
 
     var data = get_percentages();
     
-    var svg = dimple.newSvg("#d3chart", 300, 300);
+    var svg = dimple.newSvg("#d3chart", 300, 250);
   
     var mychart = new dimple.chart(svg, data);
     // mychart.setBounds(75, 30, 300, 300);
@@ -263,7 +263,7 @@ map.on('load', function () {
     
     x.showGridlines = false; 
     x.title = "Percent of total"; 
-    x.overrideMax = 50; 
+    // x.overrideMax = 50; 
     
     // Customize the y axis
     var y = mychart.addCategoryAxis("y", "Level");
@@ -280,16 +280,7 @@ map.on('load', function () {
     mychart.assignColor("Some college", "#ffff33");
     mychart.assignColor("Bachelor's", "#4daf4a");
     mychart.assignColor("Graduate", "#377eb8");
-  
-    mychart.draw(); 
-    
-    // y.shapes.selectAll("*").attr("fill", "white"); 
-    x.shapes.selectAll("*").attr("fill", "white"); 
-    x.titleShape.attr("fill", "white"); 
-    x.shapes.selectAll("*").style("font-family", "Open Sans"); 
-    x.titleShape.style("font-size", "103%"); 
-    x.titleShape.style("font-family", "Open Sans"); 
-    
+
     // Change the chart when the button is clicked
     
     document.getElementById('button-click').addEventListener('click', function () {
@@ -303,35 +294,8 @@ map.on('load', function () {
       x.titleShape.style("font-size", "103%"); 
       x.titleShape.style("font-family", "Open Sans"); 
   
-}); 
-  
-
- /*
- 
-  // Re-draw the chart when the user moves the map
-  map.on('moveend', function() {
-
-    mychart.data = get_percentages();
-    mychart.draw(1000);
-    // y.shapes.selectAll("*").attr("fill", "white"); 
-    x.shapes.selectAll("*").attr("fill", "white"); 
-    x.titleShape.attr("fill", "white"); 
-    x.shapes.selectAll("*").style("font-family", "Open Sans"); 
-    x.titleShape.style("font-size", "103%"); 
-    x.titleShape.style("font-family", "Open Sans"); 
-
-  });
-  
- /* map.on('load', function() {
-    mychart.data = get_percentages();
-    mychart.draw(1000);
-    y.shapes.selectAll("*").attr("fill", "white"); 
-    x.shapes.selectAll("*").attr("fill", "white"); 
-    x.titleShape.attr("fill", "white"); 
-    
   }); 
-
-*/
+  
 
 });
 
@@ -366,8 +330,6 @@ document.getElementById('atlanta').addEventListener('click', function () {
     });
 });
 
-// Try to get legend filter working
-// Works.  Now need to figure out how to create a combination filter.
 
 // Generate click event for legend filter
 
@@ -435,43 +397,5 @@ layerids.map(function(x) {
   
 }); 
 
-// Work on preserving filter at multiple zooms
 
-/*
-
-//My working code: 
-
-document.getElementById('legend10').addEventListener('click', function(e) {
-  var level = e.target.id; 
-  var layer = current_layer(); 
-  if (level === 'graduate') {
-    map.setFilter(layer, ['!=', 'level', 'graduate']);
-  } 
-  
-  
-// The Mapbox code - this is turning all layers on and off for me  
-levels.map(function(d) {
-  d.active = true; 
-  var lev = d.group; 
-  var legend = document.getElementById('legend10'); 
-  var layer = current_layer(); 
-  legend.addEventListener('click', function() {
-    d.active = d.active ? false : true; 
-    legend.classList.toggle('active', d.active); 
-    map.setFilter(layer, getFilter()); 
-  }); 
-  return d; 
-}); 
-
-function getFilter() {
-  return levels.filter(function(d) {
-    return d.active; 
-  }).reduce(function(memo, d) {
-    memo.push(d.group); 
-    return memo; 
-  }, ['in', 'level']); 
-}
-*/  
-
-  
 
