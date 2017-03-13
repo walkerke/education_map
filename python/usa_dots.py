@@ -9,6 +9,9 @@ arcpy.env.workspace = gdb
 
 arcpy.env.overwriteOutput = True
 
+# Uncomment and modify below if you want a different random seed; below is the default
+# arcpy.env.randomGenerator = "0 ACM599"
+
 # Copy shapefile to geodatabase
 
 arcpy.conversion.FeatureClassToFeatureClass("data/dissolve/full_dissolved.shp", gdb, "full_dasymetric")

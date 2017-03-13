@@ -32,7 +32,7 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/kwalkertcu/cizbggjq6006w2rnqzkmf6i0k',
     zoom: 12,
     maxZoom: 14.5, 
-    minZoom: 3, 
+    minZoom: 4, 
     hash: true,
     center: [-122.447303, 37.753574]
 });
@@ -247,6 +247,20 @@ map.on('load', function () {
       
     }); 
     
+    // Get current dot level when map loads
+    
+    layerids.map(function(x) {
+    
+      var d = document.getElementById(x.textid); 
+      var zoom = map.getZoom(); 
+      
+      if (zoom >= x.minzoom && zoom <= x.maxzoom ) {
+        d.style.display = 'block'; 
+      } else {
+        d.style.display = 'none'; 
+      }
+    });
+    
     // Here, we build the chart
 
     var data = get_percentages();
@@ -379,7 +393,7 @@ layerids.map(function(x) {
   
 }); 
 
-// Modify dot info in sidebar
+// Modify dot info in sidebar on zoom
 
 layerids.map(function(x) {
   
