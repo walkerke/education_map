@@ -318,6 +318,10 @@ map.on('load', function () {
 
 // Fly-to links
 
+// Un-comment when the map views calm down
+
+/*
+
 document.getElementById('new-york').addEventListener('click', function () {
     map.flyTo({
         center: [-74.0066, 40.7770], zoom: 11.01
@@ -344,6 +348,7 @@ document.getElementById('atlanta').addEventListener('click', function () {
     });
 });
 
+*/
 
 // Generate click event for legend filter
 
