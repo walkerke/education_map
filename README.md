@@ -1,5 +1,7 @@
 ## education_map
 
+Colorblind-safe version: http://personal.tcu.edu/kylewalker/maps/education/colorsafe/
+
 <img src="https://dl.dropbox.com/s/pw4wn4f3e0x85rn/tweet1.PNG">
 
 __Educational Attainment in America__ is an interactive dot-density map of the US population aged 25 and over by educational attainment.  Data are summarized into five categories, which represent the highest education attained: less than high school; high school or equivalent; some college or associate's degree; bachelor's degree; and graduate degree.  Data are from the 2011-2015 American Community Survey Table B15003, distributed by [NHGIS](http://www.nhgis.org).  Dot locations are approximate and __do not__ represent the locations of individuals.  Also, as the ACS is a survey of the US population, its estimates are subject to a margin of error.  

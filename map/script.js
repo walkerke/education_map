@@ -99,9 +99,9 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.1utb0sx3'
+            url: 'mapbox://kwalkertcu.3z2u4xiy'
         },
-        'source-layer': 'us_dasy_25-b19smm',
+        'source-layer': 'shuffle_us_dasy_25-0mgfue',
         // 'minzoom': 11,
         'paint': {
             // make circles larger as the user zooms in
@@ -127,9 +127,9 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.7zzum1a3'
+            url: 'mapbox://kwalkertcu.6ujujodu'
         },
-        'source-layer': 'us_dasy_50-dymmgx',
+        'source-layer': 'shuffle_us_dasy_50-0wyp0i',
         // 'minzoom': 9,
         // 'maxzoom': 10.99999,
         'paint': {
@@ -156,9 +156,9 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.3gj3ago4'
+            url: 'mapbox://kwalkertcu.6pcco9e5'
         },
-        'source-layer': 'us_dasy_100-cfqt1f',
+        'source-layer': 'shuffle_us_dasy_100-56da3b',
         // 'minzoom': 7,
         // 'maxzoom': 8.99999,
         'paint': {
@@ -185,9 +185,9 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.38ss9mwe'
+            url: 'mapbox://kwalkertcu.6lw22oxt'
         },
-        'source-layer': 'us_dasy_200-b8i5jx',
+        'source-layer': 'shuffle_us_dasy_200-4kxrc0',
         // 'minzoom': 5,
         // 'maxzoom': 6.99999,
         'paint': {
@@ -214,9 +214,9 @@ map.on('load', function () {
         'type': 'circle',
         'source': {
             type: 'vector',
-            url: 'mapbox://kwalkertcu.bvg8or44'
+            url: 'mapbox://kwalkertcu.776b8onp'
         },
-        'source-layer': 'us_dasy_500-4vo2ld',
+        'source-layer': 'shuffle_us_dasy_500-8mom6t',
         // 'minzoom': 3,
         // 'maxzoom': 4.99999,
         'paint': {
