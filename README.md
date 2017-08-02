@@ -28,5 +28,6 @@ Running the following scripts in order, if all requisite software is installed, 
 3. `python/erase_from_tracts.py`
 4. `R/combine_dasymetric_tracts.R`
 5. `python/usa_dots.py`
+6. `R/randomize_points.R`
 
 
