@@ -31,7 +31,7 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/kwalkertcu/cizbggjq6006w2rnqzkmf6i0k',
     zoom: 12,
-    maxZoom: 14.5, 
+    maxZoom: 13.5, 
     minZoom: 4, 
     hash: true,
     center: [-122.447303, 37.753574]
