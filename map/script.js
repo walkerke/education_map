@@ -263,6 +263,7 @@ map.on('load', function () {
     
     // Here, we build the chart
 
+    /*
     var data = get_percentages();
     
     var svg = dimple.newSvg("#d3chart", 300, 250);
@@ -309,6 +310,8 @@ map.on('load', function () {
       x.titleShape.style("font-family", "Open Sans"); 
   
   }); 
+  
+  */
   
 
 });
