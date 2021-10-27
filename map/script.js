@@ -28,11 +28,12 @@ var layerids = [{id: 'education-25', minzoom: 11, maxzoom: 15, textid: 'layer25'
 mapboxgl.accessToken = 'pk.eyJ1Ijoia3dhbGtlcnRjdSIsImEiOiJMRk9JSmRvIn0.l1y2jHZ6IARHM_rA1-X45A';
 
 var map = new mapboxgl.Map({
+    projection: {name: 'albers', center: [-96, 37.5], parallels: [29.5, 45.5]},
     container: 'map',
     style: 'mapbox://styles/kwalkertcu/cizbggjq6006w2rnqzkmf6i0k',
-    zoom: 12,
-    maxZoom: 13.5, 
-    minZoom: 4, 
+    zoom: 10,
+    maxZoom: 12, 
+    minZoom: 4.5, 
     hash: true,
     center: [-122.447303, 37.753574]
 });
