@@ -96,11 +96,11 @@
 <div id='map'></div>
 <div id='legend10' class='legend mobile-hide'>
     <div id='legend-title'> </div>
-    <div id='graduate' class='hand-click'><span style='background-color: #377eb8' id='graduate-span'></span>Graduate degree</div>
-    <div id='bachelors' class='hand-click'><span style='background-color: #4daf4a' id='bachelors-span'></span>Bachelor's degree</div>
-    <div id='some_college' class='hand-click'><span style='background-color: #ffff33' id='some_college-span'></span>Some college / Associate's degree</div>
-    <div id='high_school' class='hand-click'><span style='background-color: #ff7f00' id='high_school-span'></span>High school</div>
-    <div id='less_than_hs' class='hand-click'><span style='background-color: #e41a1c' id='less_than_hs-span'></span>Less than high school</div>
+    <div id='graduate' class='hand-click'><span style='background-color: #2c7bb6' id='graduate-span'></span>Graduate degree</div>
+    <div id='bachelors' class='hand-click'><span style='background-color: #abd9e9' id='bachelors-span'></span>Bachelor's degree</div>
+    <div id='some_college' class='hand-click'><span style='background-color: #ffffbf' id='some_college-span'></span>Some college / Associate's degree</div>
+    <div id='high_school' class='hand-click'><span style='background-color: #fdae61' id='high_school-span'></span>High school</div>
+    <div id='less_than_hs' class='hand-click'><span style='background-color: #d7191c' id='less_than_hs-span'></span>Less than high school</div>
     <div id='explanation'>Dot locations are approximate<br/>and do not represent individuals.</div>
 </div>
   
@@ -176,11 +176,11 @@ map.on('load', function () {
               property: 'group', 
               type: 'categorical', 
               stops: [
-                    ['high_school', '#ff7f00'],
-                    ['some_college', '#ffff33'],
-                    ['bachelors', '#4daf4a'],
-                    ['graduate', '#377eb8'],
-                    ['less_than_hs', '#e41a1c']
+                    ['high_school', '#fdae61'],
+                    ['some_college', '#ffffbf'],
+                    ['bachelors', '#abd9e9'],
+                    ['graduate', '#2c7bb6'],
+                    ['less_than_hs', '#d7191c']
               ]
             }
         }
