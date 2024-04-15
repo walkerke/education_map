@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>Educational Attainment in America</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.0-beta.1/mapbox-gl.js'></script>
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dimple/2.1.6/dimple.latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.0-beta.1/mapbox-gl.css' rel='stylesheet' />
+    <link href='styles.css' rel = 'stylesheet' />
+</head>
+<body>
+
+<div id='sidebar' class='sidebar'>
+  <h3>Educational Attainment in America</h3>
+  <p><a href=http://personal.tcu.edu/kylewalker>Kyle Walker</a>, 
+  <a href=http://urbanstudies.tcu.edu/>TCU Center for Urban Studies</a></p>
+  <div id='mobile-legend' class='mobile-show'>
+    <p style="font-size: 80%;">
+      <span style="color: #e41a1c;">Less than HS </span>
+      <span style="color: #ff7f00;">High school</span>
+      <span style="color: #ffff33;">Some college</span><br>
+      <span style="color: #4daf4a;">Bachelor's</span>
+      <span style="color: #377eb8;">Graduate</span>
+    </p>
+  </div>
+  <div id='fly-to' class='mobile-hide'>
+    <p>Go to: 
+    <!-- Re-instate this when the map views have calmed down
+      <a id='new-york'>New York</a> | 
+      <a id="los-angeles">Los Angeles</a> | 
+      <a id="chicago">Chicago</a><br> 
+      <a id='dfw'>Dallas-Fort Worth</a> | 
+      <a id="atlanta">Atlanta</a>
+    -->
+      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/40.7770/-74.0066">New York</a> | 
+      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/34.0807/-118.2724">Los Angeles</a> | 
+      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/41.8845/-87.6138">Chicago</a><br> 
+      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/32.8065/-97.1496">Dallas-Fort Worth</a> | 
+      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/33.8486/-84.4986">Atlanta</a>
+    </p>
+  </div>
+  <!--
+  <p style="font-size: 90%;">This interactive dot-density map represents<br>
+     the population aged 25 and over in the United<br> 
+     States by their highest level of educational<br>
+     attainment.  Data come from the 2011-2015 ACS<br> 
+     Table B15003, obtained from <a href="http://www.nhgis.org">NHGIS</a>.<br>  
+     Dots are aggregated and placed randomly within<br> 
+     Census tracts; as such, they do not represent<br> 
+     the locations of individuals.  
+  </p>
+  -->
+  <div id='layer25' class='mobile-hide dot-text'><p>1 dot = approximately 25 people age 25+.</p></div>
+  <div id='layer50' class='mobile-hide dot-text' style='display: none;'><p>1 dot = approximately 50 people age 25+.</p></div>
+  <div id='layer100' class='mobile-hide dot-text' style='display: none;'><p>1 dot = approximately 100 people age 25+.</p></div>
+  <div id='layer200' class='mobile-hide dot-text' style='display: none;'><p>1 dot = approximately 200 people age 25+.</p></div>
+  <div id='layer500' class='mobile-hide dot-text' style='display: none;'><p>1 dot = approximately 500 people age 25+.</p></div>
+
+  <div id='legend10' class='legend mobile-hide'>
+    <div id='graduate' class='hand-click'><span style='background-color: #377eb8' id='graduate-span'></span>Graduate degree</div>
+    <div id='bachelors' class='hand-click'><span style='background-color: #4daf4a' id='bachelors-span'></span>Bachelor's degree      </div>
+    <div id='some_college' class='hand-click'><span style='background-color: #ffff33' id='some_college-span'></span>Some college     </div>
+    <div id='high_school' class='hand-click'><span style='background-color: #ff7f00' id='high_school-span'></span>High school</div>
+    <div id='less_than_hs' class='hand-click'><span style='background-color: #e41a1c' id='less_than_hs-span'></span>Less than high school</div>
+  </div>
+  <!--
+  <div id='button-click' class='mobile-hide'>
+    <button class='chart-button icon graph'>Generate a chart for the current view</button>
+  </div> -->
+  <!-- <p style="font-size: 80%" class="mobile-hide">Move the map to re-generate the chart</p> -->
+  <!-- <div id='d3chart' class='d3chart mobile-hide'></div> -->
+  <div><p style="font-size: 80%;"><span class='mobile-hide'>Data sources: <a href="http://www.nhgis.org">NHGIS</a>, 2011-2015 ACS.<br></span><a href="https://github.com/walkerke/education_map">Read more about the map here.</a></p></div>
+</div>
+<div id='map'></div>
+<script src="script.js"></script>
+<!-- Analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-93340017-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

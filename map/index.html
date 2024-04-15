@@ -4,88 +4,248 @@
     <meta charset='utf-8' />
     <title>Educational Attainment in America</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.0-beta.1/mapbox-gl.js'></script>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dimple/2.1.6/dimple.latest.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.0-beta.1/mapbox-gl.css' rel='stylesheet' />
-    <link href='styles.css' rel = 'stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.js'></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v3.2.0/mapbox-gl.css' rel='stylesheet' />
+    <link href='https://mapbox.com/base/latest/base.css' rel='stylesheet' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.5/cyborg/bootstrap.min.css">
+
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:0; bottom:0; width:100%; }
+        .navbar {
+          z-index: 999;
+          font-size: 100% !important;
+        }
+        .hand-click {
+          cursor: pointer;
+        }
+        
+        .hand-click:hover {
+          color: yellow;
+        }
+        
+        .mapboxgl-ctrl-top-right {
+          margin: 35px 10px 0 0;
+        }
+        
+        .legend {
+          background-color: #000; 
+          border-radius: 3px;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+          font: 'Open Sans';
+          font-size: 110%;
+          padding: 10px;
+          opacity: 0.6;
+          position: absolute;
+          top: 77%;
+          right: 0%;
+          z-index: 3;
+          color: #fff;
+        }
+        .legend h4 {
+          margin: 0 0 10px;
+          color: #fff;
+        }
+        .legend div span {
+          border-radius: 50%;
+          display: inline-block;
+          height: 10px;
+          margin-right: 5px;
+          width: 10px;
+        }
+        
+        .legend:hover {
+          opacity: 1.0;
+        }
+        
+        @media screen and (max-height: 650px) {
+          .mobile-hide {display: none;}
+        }
+        
+        @media screen and (min-height: 650px) {
+          .mobile-show {display: none;}
+        }
+    </style>
 </head>
 <body>
 
-<div id='sidebar' class='sidebar'>
-  <h3>Educational Attainment in America</h3>
-  <p><a href=http://personal.tcu.edu/kylewalker>Kyle Walker</a>, 
-  <a href=http://urbanstudies.tcu.edu/>TCU Center for Urban Studies</a></p>
-  <div id='mobile-legend' class='mobile-show'>
-    <p style="font-size: 80%;">
-      <span style="color: #e41a1c;">Less than HS </span>
-      <span style="color: #ff7f00;">High school</span>
-      <span style="color: #ffff33;">Some college</span><br>
-      <span style="color: #4daf4a;">Bachelor's</span>
-      <span style="color: #377eb8;">Graduate</span>
-    </p>
-  </div>
-  <div id='fly-to' class='mobile-hide'>
-    <p>Go to: 
-    <!-- Re-instate this when the map views have calmed down
-      <a id='new-york'>New York</a> | 
-      <a id="los-angeles">Los Angeles</a> | 
-      <a id="chicago">Chicago</a><br> 
-      <a id='dfw'>Dallas-Fort Worth</a> | 
-      <a id="atlanta">Atlanta</a>
-    -->
-      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/40.7770/-74.0066">New York</a> | 
-      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/34.0807/-118.2724">Los Angeles</a> | 
-      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/41.8845/-87.6138">Chicago</a><br> 
-      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/32.8065/-97.1496">Dallas-Fort Worth</a> | 
-      <a href="http://personal.tcu.edu/kylewalker/maps/education/index.html#11.01/33.8486/-84.4986">Atlanta</a>
-    </p>
-  </div>
-  <!--
-  <p style="font-size: 90%;">This interactive dot-density map represents<br>
-     the population aged 25 and over in the United<br> 
-     States by their highest level of educational<br>
-     attainment.  Data come from the 2011-2015 ACS<br> 
-     Table B15003, obtained from <a href="http://www.nhgis.org">NHGIS</a>.<br>  
-     Dots are aggregated and placed randomly within<br> 
-     Census tracts; as such, they do not represent<br> 
-     the locations of individuals.  
-  </p>
-  -->
-  <div id='layer25' class='mobile-hide dot-text'><p>1 dot = approximately 25 people age 25+.</p></div>
-  <div id='layer50' class='mobile-hide dot-text' style='display: none;'><p>1 dot = approximately 50 people age 25+.</p></div>
-  <div id='layer100' class='mobile-hide dot-text' style='display: none;'><p>1 dot = approximately 100 people age 25+.</p></div>
-  <div id='layer200' class='mobile-hide dot-text' style='display: none;'><p>1 dot = approximately 200 people age 25+.</p></div>
-  <div id='layer500' class='mobile-hide dot-text' style='display: none;'><p>1 dot = approximately 500 people age 25+.</p></div>
-
-  <div id='legend10' class='legend mobile-hide'>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Educational Attainment in America</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="https://walker-data.com">Map author: Kyle Walker</a></li>
+            <li><a href="https://walker-data.com/tidycensus">Data source: 2018-2022 ACS via the R tidycensus package</a></li>
+            <li><a href="https://github.com/walkerke/education_map">Source code on GitHub</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav> 
+  
+<div id='map'></div>
+<div id='legend10' class='legend mobile-hide'>
+    <div id='legend-title'> </div>
     <div id='graduate' class='hand-click'><span style='background-color: #377eb8' id='graduate-span'></span>Graduate degree</div>
-    <div id='bachelors' class='hand-click'><span style='background-color: #4daf4a' id='bachelors-span'></span>Bachelor's degree      </div>
-    <div id='some_college' class='hand-click'><span style='background-color: #ffff33' id='some_college-span'></span>Some college     </div>
+    <div id='bachelors' class='hand-click'><span style='background-color: #4daf4a' id='bachelors-span'></span>Bachelor's degree</div>
+    <div id='some_college' class='hand-click'><span style='background-color: #ffff33' id='some_college-span'></span>Some college / Associate's degree</div>
     <div id='high_school' class='hand-click'><span style='background-color: #ff7f00' id='high_school-span'></span>High school</div>
     <div id='less_than_hs' class='hand-click'><span style='background-color: #e41a1c' id='less_than_hs-span'></span>Less than high school</div>
-  </div>
-  <!--
-  <div id='button-click' class='mobile-hide'>
-    <button class='chart-button icon graph'>Generate a chart for the current view</button>
-  </div> -->
-  <!-- <p style="font-size: 80%" class="mobile-hide">Move the map to re-generate the chart</p> -->
-  <!-- <div id='d3chart' class='d3chart mobile-hide'></div> -->
-  <div><p style="font-size: 80%;"><span class='mobile-hide'>Data sources: <a href="http://www.nhgis.org">NHGIS</a>, 2011-2015 ACS.<br></span><a href="https://github.com/walkerke/education_map">Read more about the map here.</a></p></div>
+    <div id='explanation'>Dot locations are approximate<br/>and do not represent individuals.</div>
 </div>
-<div id='map'></div>
-<script src="script.js"></script>
-<!-- Analytics -->
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  
 
-  ga('create', 'UA-93340017-1', 'auto');
-  ga('send', 'pageview');
+<script>
+mapboxgl.accessToken = 'pk.eyJ1Ijoia3dhbGtlcnRjdSIsImEiOiJMRk9JSmRvIn0.l1y2jHZ6IARHM_rA1-X45A';
+var map = new mapboxgl.Map({
+    projection: {name: 'albers', center: [-96, 37.5], parallels: [29.5, 45.5]},
+    container: 'map',
+    style: 'mapbox://styles/kwalkertcu/cizbggjq6006w2rnqzkmf6i0k',
+    zoom: 10,
+    maxZoom: 12, 
+    minZoom: 4.5, 
+    hash: true,
+    center: [-122.447303, 37.753574]
+});
+
+// Get current zoom level for dot translation
+
+map.on('render', function() {
+  var legend_title = document.getElementById('legend-title');
+  legend_title.innerHTML = translate_dots();
+})
+
+function translate_dots() {
+  var zm = map.getZoom();
+  if (zm == 12) {
+    return "1 dot = approximately 25 people"
+  } else if (zm < 12 && zm >= 11) {
+    return "1 dot = approximately 50 people" 
+  } else if (zm < 11 && zm >= 10) {
+    return "1 dot = approximately 100 people"  
+  } else if (zm < 10 && zm >= 9) {
+    return "1 dot = approximately 200 people"  
+  } else if (zm < 9 && zm >= 8) {
+    return "1 dot = approximately 400 people"  
+  } else if (zm < 8 && zm >= 7) {
+    return "1 dot = approximately 800 people"  
+  } else if (zm < 7 && zm >= 6) {
+    return "1 dot = approximately 1600 people"  
+  } else if (zm < 6 && zm >= 5) {
+    return "1 dot = approximately 3200 people"
+  } else if (zm < 5 && zm >= 4) {
+    return "1 dot = approximately 6400 people"
+  } else if (zm < 4 && zm >= 3) {
+    return "1 dot = approximately 12800 people"
+  } 
+}
+
+map.on('load', function () {
+  
+    map.addSource('state-dots', {
+      type: 'vector',
+      url: 'mapbox://kwalkertcu.education_dots_2022_acs'
+    });
+  
+    var nav = new mapboxgl.NavigationControl();
+    map.addControl(nav, 'top-right');
+
+    map.addLayer({
+        'id': 'education22',
+        'type': 'circle',
+        'source': 'state-dots',
+        'source-layer': 'education_dots_2022_acs',
+        'paint': {
+            // make circles larger as the user zooms
+            'circle-radius': {
+                'base': 2,
+                'stops': [[5, 1], [12, 2.5]]
+            },
+            
+            'circle-color': {
+              property: 'group', 
+              type: 'categorical', 
+              stops: [
+                    ['high_school', '#ff7f00'],
+                    ['some_college', '#ffff33'],
+                    ['bachelors', '#4daf4a'],
+                    ['graduate', '#377eb8'],
+                    ['less_than_hs', '#e41a1c']
+              ]
+            }
+        }
+    }, 'waterway-label');
+    
+    // Interactive legend logic - start here and experiment
+    
+    var filter = ["in", "group", "less_than_hs", "high_school", "some_college", "bachelors", "graduate"]; 
+                  
+    var groups = [{group: "high_school", hex: "#ff7f00"}, 
+                  {group: "some_college", hex: "#ffff33"}, 
+                  {group: "bachelors", hex: "#4daf4a"}, 
+                  {group: "graduate", hex: "#377eb8"}, 
+                  {group: "less_than_hs", hex: "#e41a1c"}]; 
+
+    document.getElementById('legend10').addEventListener('click', function(e) {
+    
+      var group = e.target.id; 
+      var layer = 'education22'; 
+      var group_span = group + '-span'; 
+      
+      // get the corresponding hex value for the level
+      var group_index = groups.map(function(x) {
+        return x.group; 
+      }).indexOf(group); 
+      
+      var hex = groups[group_index].hex; 
+      
+      var el = document.getElementById(group_span);
+      
+      // check if the level is in the target array; if not, then add it
+      if (filter.indexOf(group, 1) === -1) {
+        filter.push(group); 
+        map.setFilter(layer, filter); 
+        el.style.backgroundColor = hex; 
+        el.style.color = "#ffffff"; 
+      // otherwise, remove it
+      } else {
+        index = filter.indexOf(group); 
+        filter.splice(index, 1); 
+        map.setFilter(layer, filter); 
+        el.style.backgroundColor = '#c5c8cc'; 
+        el.style.color = '#c5c8cc'; 
+      }
+        
+    }); 
+    
+    // Preserve filter on zoom
+    
+    layerids.map(function(x) {
+      
+      map.on('zoom', function() {
+        
+        map.setFilter(x.id, filter); 
+        
+      }); 
+      
+    }); 
+    
+
+});
+
+
+
+
 
 </script>
 
